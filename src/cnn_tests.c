@@ -1,7 +1,7 @@
 // #define PY_SSIZE_T_CLEAN
 // #include <Python.h>
 
-#include "cnn_tests.h"
+#include "cnn.h"
 
 void testArbArr(int argc, char *argv[])
 {

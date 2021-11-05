@@ -1,4 +1,4 @@
-#include "ArbitraryArray.h"
+#include "cnn.h"
 
 ArbitraryArray newArbArray(int *d, size_t num_d)
 {

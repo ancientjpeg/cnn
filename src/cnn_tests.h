@@ -1,4 +1,3 @@
-#include "cnn.h"
 #include "stdio.h"
 
 void testArbArr(int argc, char *argv[]);

@@ -1,4 +1,4 @@
-#include "cnn_tests.h"
+#include "cnn.h"
 #include "imago2.h"
 
 int main(int argc, char *argv[])

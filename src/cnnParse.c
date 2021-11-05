@@ -1,4 +1,4 @@
-#include "cnnParse.h"
+#include "cnn.h"
 
 void parse_dims(int *buffer, int num_dims, char *dims[])
 {
@@ -67,39 +67,6 @@ off_t readLabelsFromFile(const char *filepath, uint32_t **buffer)
   return fileSize;
 }
 
-void readDataFromFile(const char *filepath, ArbitraryArray *data_buffer,
-                      size_t num_leading_ints)
-{
-  // return an arbitrary array, formatted properly??? i GUESS?????
-  FILE *file = fopen(filepath, "rb");
-  if (!file) {
-    printf("You fucked up the file while trying to read its data.\n");
-    fclose(file);
-    exit(-1);
-  }
-  off_t fileSize = getFileSize(filepath) - num_leading_ints * 4;
-  if (fileSize != data_buffer->data_size) {
-    printf("FATAL ERROR: array size is not equal to projected dataset size.\n");
-    exit(-5);
-  }
-
-  fseek(file, num_leading_ints * 4, SEEK_SET);
-
-  size_t  block_size = 1 << 13;
-  uint8_t temp[block_size];
-  size_t  bytes_read = block_size;
-  size_t  blocks_req = fileSize / block_size + 1;
-  for (size_t i = 0; i <= blocks_req; i++) {
-    bytes_read = fread(temp, 1, block_size, file);
-    for (size_t j = 0; j < block_size; j++) {
-      // printf("%lu\n", j);
-      if (bytes_read < block_size && j >= bytes_read)
-        break;
-      data_buffer->data[i * block_size + j] = temp[j];
-    }
-  }
-}
-
 void reverseBufferEndianness(void *buf, size_t size)
 {
   char *buffer = (char *)buf;
@@ -143,4 +110,37 @@ void reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
   fwrite(write_buffer, bytes_read, 1, outfile);
   fclose(infile);
   fclose(outfile);
+}
+
+void readDataFromFile(const char *filepath, ArbitraryArray *data_buffer,
+                      size_t num_leading_ints)
+{
+  // return an arbitrary array, formatted properly??? i GUESS?????
+  FILE *file = fopen(filepath, "rb");
+  if (!file) {
+    printf("You fucked up the file while trying to read its data.\n");
+    fclose(file);
+    exit(-1);
+  }
+  off_t fileSize = getFileSize(filepath) - num_leading_ints * 4;
+  if (fileSize != data_buffer->data_size) {
+    printf("FATAL ERROR: array size is not equal to projected dataset size.\n");
+    exit(-5);
+  }
+
+  fseek(file, num_leading_ints * 4, SEEK_SET);
+
+  size_t  block_size = 1 << 13;
+  uint8_t temp[block_size];
+  size_t  bytes_read = block_size;
+  size_t  blocks_req = fileSize / block_size + 1;
+  for (size_t i = 0; i <= blocks_req; i++) {
+    bytes_read = fread(temp, 1, block_size, file);
+    for (size_t j = 0; j < block_size; j++) {
+      // printf("%lu\n", j);
+      if (bytes_read < block_size && j >= bytes_read)
+        break;
+      data_buffer->data[i * block_size + j] = temp[j];
+    }
+  }
 }

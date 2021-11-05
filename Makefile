@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=c17 -g
+CFLAGS = -std=c17 -g  
 TARGET = main
 
 CSRCS = $(wildcard src/*.c)

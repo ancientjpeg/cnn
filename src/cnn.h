@@ -3,6 +3,7 @@
 
 #include "ArbitraryArray.h"
 #include "activations.h"
+#include "cnnImaging.h"
 #include "cnnParse.h"
 #include "cnn_tests.h"
 

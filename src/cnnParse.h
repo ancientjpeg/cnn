@@ -1,8 +1,6 @@
 #ifndef CNN_PARSE_H
 #define CNN_PARSE_H
 
-#include "cnn.h"
-
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"

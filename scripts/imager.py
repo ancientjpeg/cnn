@@ -1,10 +1,6 @@
 from PIL import Image
 from pathlib import Path
 import numpy as np
-from random import random
-import json
-
-from numpy.core.fromnumeric import size
 
 
 class CNNImager:
