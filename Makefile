@@ -8,6 +8,7 @@ OBJ = $(CSRCS:.c=.o)
 .PHONY: all
 all: $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
-	rm src/*.o
 
-main: main.o
+.PHONY: clean
+clean:
+	rm src/*.o
