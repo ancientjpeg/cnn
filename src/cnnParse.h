@@ -1,7 +1,7 @@
 #ifndef CNN_PARSE_H
 #define CNN_PARSE_H
 
-#include "ArbitraryArray.h"
+#include "cnn.h"
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -17,20 +17,14 @@ void    parse_dims(int *buffer, int num_dims, char *dims[]);
 Globals cnn_parse(int argc, char *argv[]);
 void    freeGlobals(Globals *g);
 
-// what the fuck is this
-typedef struct DataStruct {
-  struct DataStruct *next;
-  char               isLast;
-} DataStruct;
+void    printBits(const void *b, size_t size);
 
-void  printBits(const void *b, size_t size);
-
-off_t getFileSize(const char *filepath);
-off_t readLabelsFromFile(const char *filepath, u_int32_t **buffer);
-void  readDataFromFile(const char *filepath, ArbitraryArray *data_buffer,
-                       size_t num_leading_ints);
-void  reverseBufferEndianness(void *buf, size_t size);
-void  reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
-                            const char *outPath);
+off_t   getFileSize(const char *filepath);
+off_t   readLabelsFromFile(const char *filepath, u_int32_t **buffer);
+void    readDataFromFile(const char *filepath, ArbitraryArray *data_buffer,
+                         size_t num_leading_ints);
+void    reverseBufferEndianness(void *buf, size_t size);
+void    reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
+                              const char *outPath);
 
 #endif

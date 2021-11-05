@@ -1,4 +1,5 @@
 #include "cnn_tests.h"
+#include "imago2.h"
 
 int main(int argc, char *argv[])
 {

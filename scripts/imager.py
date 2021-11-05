@@ -32,10 +32,6 @@ class CNNImager:
 
 if __name__ == "__main__":
 
-    # with open('first.json', 'rb') as f:
-    #     im_arr = np.asarray(json.load(f), dtype=np.ubyte)
-
     imager = CNNImager()
     d = imager.get_bytes_from_file('test/output.dat')
     imager.write_bytes_to_image('out.PNG', d)
-    # imager.write_array_to_image('out2.PNG', im_arr)
