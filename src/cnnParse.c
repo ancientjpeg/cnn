@@ -1,6 +1,20 @@
 #include "cnn.h"
+#include "sys/stat.h"
 
-void parse_dims(int *buffer, int num_dims, char *dims[])
+void printBits(const void *b, size_t size)
+{
+  const char *bytes = (char *)b;
+  for (size_t i = 0; i < size; i++) {
+    for (int j = 7; j >= 0; j--) {
+      uint64_t mask = (1ULL << (j));
+      printf("%c", (bytes[i] & mask ? '1' : '0'));
+    }
+    printf("\n");
+  }
+  printf("\n");
+}
+
+static void parse_dims(int *buffer, int num_dims, char *dims[])
 {
   for (size_t i = 0; i < num_dims; i++) {
     int arg = atoi(dims[i]);
@@ -30,19 +44,6 @@ void freeGlobals(Globals *g) { free(g->dimensions); }
 
 // this is all the shit for big-endian parsing
 
-void printBits(const void *b, size_t size)
-{
-  const char *bytes = (char *)b;
-  for (size_t i = 0; i < size; i++) {
-    for (int j = 7; j >= 0; j--) {
-      uint64_t mask = (1ULL << (j));
-      printf("%c", (bytes[i] & mask ? '1' : '0'));
-    }
-    printf("\n");
-  }
-  printf("\n");
-}
-
 off_t getFileSize(const char *filepath)
 {
   struct stat buffer;
@@ -50,21 +51,19 @@ off_t getFileSize(const char *filepath)
   return buffer.st_size;
 }
 
-off_t readLabelsFromFile(const char *filepath, uint32_t **buffer)
+void readLabelsFromFile(const char *filepath, uint32_t **buffer, int numLabels)
 {
   // return the labels
   FILE *file = fopen(filepath, "rb");
   if (!file) {
     fclose(file);
-    return 0;
-  }
-  off_t fileSize = getFileSize(filepath);
-
-  for (off_t byte = 0; byte < fileSize; byte++) {
-    fseek(file, 1, SEEK_CUR);
+    return;
   }
 
-  return fileSize;
+  for (int byte = 0; byte < numLabels; byte++) {
+    fread(buffer[byte], 4, 1, file);
+  }
+  fclose(file);
 }
 
 void reverseBufferEndianness(void *buf, size_t size)
@@ -112,7 +111,7 @@ void reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
   fclose(outfile);
 }
 
-void readDataFromFile(const char *filepath, ArbitraryArray *data_buffer,
+void readDataFromFile(ArbitraryArray *data_buffer, const char *filepath,
                       size_t num_leading_ints)
 {
   // return an arbitrary array, formatted properly??? i GUESS?????

@@ -5,15 +5,10 @@ int main(int argc, char *argv[])
 {
   int            dims[3] = {60000, 28, 28};
   ArbitraryArray a       = newArbArray(dims, 3);
-  readDataFromFile("mnist/mnist_images_rev", &a, 4);
-  printf("[");
-  for (int i = 0; i < (28 * 28); i++) {
-    if (i % 28 == 0)
-      printf("[");
-    printf("%.1f,", readElement(&a, 0, i / 28, i % 28));
-    if (i % 28 == 27)
-      printf("],");
-  }
-  printf("]\n");
+  readDataFromFile(&a, "mnist/mnist_images_rev", 4);
+  const float *image = getElementPointer(&a, 5, 0, 0);
+
+  write_im(image, 28, 28, "im/out.png");
+
   return 0;
 }

@@ -1,4 +1,1 @@
-// #include "Python.h"
-#define PY_SSIZE_T_CLEAN
-
-void write_im();
+void write_im(const float *raw_pix, int width, int height, const char *outfile);

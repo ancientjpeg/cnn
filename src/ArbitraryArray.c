@@ -1,4 +1,5 @@
 #include "cnn.h"
+#include "stdarg.h"
 
 ArbitraryArray newArbArray(int *d, size_t num_d)
 {
@@ -64,6 +65,18 @@ void writeToElement(const ArbitraryArray *a, double value, ...)
   va_end(args);
 
   a->data[index] = (float)value;
+}
+
+float *getElementPointer(const ArbitraryArray *a, ...)
+{
+  // maybe set this so it can be passed args and used inside readElemnt
+  // but i'm not going to do that right now
+  va_list args;
+  va_start(args, a);
+  size_t index = calc_index(a, args);
+  va_end(args);
+
+  return a->data + index;
 }
 
 void printAll(const ArbitraryArray *a)

@@ -7,11 +7,6 @@
 #ifndef ARBITRARY_ARRAY_H
 #define ARBITRARY_ARRAY_H
 
-#include "stdarg.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-
 typedef struct ArbArr {
   size_t  num_dims;
   size_t *dims;
@@ -28,6 +23,7 @@ void           freeArbArray(ArbitraryArray *a);
 size_t         calc_block_size(const ArbitraryArray *a, size_t dim);
 float        **gen_array_recursively(ArbitraryArray *a, size_t dim_num);
 const float    readElement(const ArbitraryArray *a, ...);
+float         *getElementPointer(const ArbitraryArray *a, ...);
 void           writeToElement(const ArbitraryArray *a, double value, ...);
 void           printAll(const ArbitraryArray *a);
 void           freeArbArray(ArbitraryArray *a);
