@@ -1,1 +1,2 @@
-void write_im(const float *raw_pix, int width, int height, const char *outfile);
+void writeImageFromDataBlock(const float *raw_pix, int width, int height,
+                             const char *outfile);

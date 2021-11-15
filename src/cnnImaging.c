@@ -1,7 +1,8 @@
 #include "cnn.h"
 #include "imago2.h"
 
-void write_im(const float *raw_pix, int width, int height, const char *outfile)
+void writeImageFromDataBlock(const float *raw_pix, int width, int height,
+                             const char *outfile)
 {
   struct img_pixmap holder;
   int               x = IMG_OPTARG(1, 2);

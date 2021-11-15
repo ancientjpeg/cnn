@@ -3,7 +3,4 @@
 
 #include "math.h"
 
-float sigmoid(float x);
-
-float LeakyReLu(float x);
 #endif

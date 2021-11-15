@@ -6,9 +6,9 @@ int main(int argc, char *argv[])
   int            dims[3] = {60000, 28, 28};
   ArbitraryArray a       = newArbArray(dims, 3);
   readDataFromFile(&a, "mnist/mnist_images_rev", 4);
-  const float *image = getElementPointer(&a, 5, 0, 0);
+  const float *image = getElementPointer(&a, 10534, 0, 0);
 
-  write_im(image, 28, 28, "im/out.png");
+  writeImageFromDataBlock(image, 28, 28, "im/out.png");
 
   return 0;
 }

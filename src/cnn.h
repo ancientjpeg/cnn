@@ -12,14 +12,34 @@ typedef struct Globals {
   size_t num_dims;
 } Globals;
 
-#include "ArbitraryArray.h"
 #include "activations.h"
 #include "cnnImaging.h"
-#include "cnn_tests.h"
+#include "cnnNetwork.h"
 
-typedef struct Network {
-  ArbitraryArray *layers;
-} Network;
+/*==================================================
+=           ArbitraryArray Declarations            =
+==================================================*/
+
+typedef struct ArbArr {
+  size_t  num_dims;
+  size_t *dims;
+  size_t  data_size;
+  size_t *dim_block_sizes;
+  float  *data;
+
+} ArbitraryArray;
+
+#define ARB_ARR_ERR (ArbitraryArray){0, 0, 0, 0, 0};
+
+ArbitraryArray newArbArray(int *d, size_t num_d);
+void           freeArbArray(ArbitraryArray *a);
+size_t         calc_block_size(const ArbitraryArray *a, size_t dim);
+float        **gen_array_recursively(ArbitraryArray *a, size_t dim_num);
+const float    readElement(const ArbitraryArray *a, ...);
+float         *getElementPointer(const ArbitraryArray *a, ...);
+void           writeToElement(const ArbitraryArray *a, double value, ...);
+void           printAll(const ArbitraryArray *a);
+void           freeArbArray(ArbitraryArray *a);
 
 /*==================================================
 =             cnnParse Declarations                =
@@ -37,5 +57,16 @@ void readDataFromFile(ArbitraryArray *data_buffer, const char *filepath,
 void reverseBufferEndianness(void *buf, size_t size);
 void reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
                            const char *outPath);
+
+/*==================================================
+=             cnnNetwork Declarations              =
+==================================================*/
+
+typedef struct Network {
+  ArbitraryArray *layers;
+} Network;
+
+float sigmoid(float x);
+float LeakyReLu(float x);
 
 #endif
