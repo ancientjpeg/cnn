@@ -1,6 +1,8 @@
 #include "cnn.h"
 #include "imago2.h"
 
+#include "../metal/libcnnmetal.h"
+
 int main(int argc, char *argv[])
 {
   // int            dims[3] = {60000, 28, 28};
@@ -11,5 +13,6 @@ int main(int argc, char *argv[])
   // writeImageFromDataBlock(image, 28, 28, "im/out.png");
   system("clear");
   printf("yeah...\n");
+  spawnGPU();
   return 0;
 }
