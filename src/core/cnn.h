@@ -2,23 +2,20 @@
 #define CNN_H
 
 #include "imago2.h"
-#include "math.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
+
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*==================================================
+=           Data Structure Definitions             =
+==================================================*/
 
 typedef struct Globals {
   int   *dimensions;
   size_t num_dims;
 } Globals;
-
-#include "activations.h"
-#include "cnnImaging.h"
-#include "cnnNetwork.h"
-
-/*==================================================
-=           ArbitraryArray Declarations            =
-==================================================*/
 
 typedef struct ArbArr {
   size_t  num_dims;
@@ -28,6 +25,26 @@ typedef struct ArbArr {
   float  *data;
 
 } ArbitraryArray;
+
+typedef struct Layer {
+  int             dimension;
+  ArbitraryArray *weights;
+  float          *biases;
+  float          *zValues;
+  float          *activations;
+  float          *errors;
+} Layer;
+
+typedef struct Network {
+  int    num_layers;
+  int   *layer_dims;
+  Layer *layers;
+  Layer (*layer)(int);
+} Network;
+
+/*==================================================
+=           ArbitraryArray Declarations            =
+==================================================*/
 
 #define ARB_ARR_ERR (ArbitraryArray){0, 0, 0, 0, 0};
 
@@ -55,18 +72,28 @@ void readLabelsFromFile(const char *filepath, uint32_t **buffer, int numLabels);
 void readDataFromFile(ArbitraryArray *data_buffer, const char *filepath,
                       size_t num_leading_ints);
 void reverseBufferEndianness(void *buf, size_t size);
-void reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
-                           const char *outPath);
+void reverseDatasetHeaders(size_t num_leading_ints, const char *in_path,
+                           const char *out_path);
 
 /*==================================================
 =             cnnNetwork Declarations              =
 ==================================================*/
 
-typedef struct Network {
-  ArbitraryArray *layers;
-} Network;
+Network newNetwork(int layer_count, int *layer_dimensions);
+
+/*==================================================
+=                Math Declarations                 =
+==================================================*/
 
 float sigmoid(float x);
+float derivSigmoid(float x);
 float LeakyReLu(float x);
+float derivLeakyReLu(float x);
+
+/*==================================================
+=                 header includes                  =
+==================================================*/
+
+#include "cnnImaging.h"
 
 #endif

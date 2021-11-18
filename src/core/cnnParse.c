@@ -78,11 +78,11 @@ void reverseBufferEndianness(void *buf, size_t size)
   }
 }
 
-void reverseDatasetHeaders(size_t num_leading_ints, const char *inPath,
-                           const char *outPath)
+void reverseDatasetHeaders(size_t num_leading_ints, const char *in_path,
+                           const char *out_path)
 {
-  FILE *infile  = fopen(inPath, "rb");
-  FILE *outfile = fopen(outPath, "wb");
+  FILE *infile  = fopen(in_path, "rb");
+  FILE *outfile = fopen(out_path, "wb");
   if (!infile || !outfile) {
     printf("Input or output file failed to open. Sorry I didn't differentiate "
            "lol\n");
